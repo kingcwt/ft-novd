@@ -447,6 +447,11 @@ i, em {
 	background: url(../images/jt.png) 2.8rem center no-repeat;
 	background-size: 0.23rem auto;
 }
+input{
+	outline: none;
+	border: 0;
+	color: #000;
+}
 
 /*.part5 .roll {*/
 	/*width: 7.1rem;*/
