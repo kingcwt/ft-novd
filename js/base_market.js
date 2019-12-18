@@ -50,9 +50,9 @@ function subForm() {
 
     var timestamp3 = new Date().getTime();
     userObj.mediaLeadId='161C09E54CA90DC1B6AAE7A90105CB3B';//timestamp3;
-    userObj.mediaLeadType='2019年12月-奕泽IZOA投放';
+    userObj.mediaLeadType='2019年11月奕泽GAS APP投放';
     userObj.channelKeyId=0;
-
+    userObj.seriesId=32;
     userObj.name = $('#LoginName').val();
     userObj.phone = $('#LoginPhone').val() ;
     userObj.sex = $('#sex option:selected').val() ;
@@ -64,13 +64,13 @@ function subForm() {
     userObj.cityText = $('#ftms_city option:selected').text();
 
     userObj.dealerId = $('#ftms_dealer option:selected').val();
-    userObj.chexingId ='38';//todo
+    userObj.chexingId ='32';//todo
     userObj.levelId = '0';//todo
-    userObj.activity=735;//todo
+    userObj.activity=767;//todo
 
     userObj.prov =  $('#ftms_province option:selected').text() ;
     userObj.city =  $('#ftms_city option:selected').text() ;
-    userObj.chexing = '奕泽IZOA' ;
+    userObj.chexing = '奕泽GAS' ;
     userObj.dealer =  $('#ftms_dealer option:selected').text() ;
     if (checkFrom(userObj)) {
         for (var u in userObj) {
@@ -187,18 +187,17 @@ function getQueryString(name) {
 
 var Putm_source=getQueryString('utm_source'),
     Putm_medium=getQueryString('utm_medium'),
-    Pid=getQueryString('id');
+    Pid=getQueryString('id')||new Date().getTime();
 
 function dengingLogin(userObj) {
 
-    $.post('//landingpage.xiaoyun.com/landings/push/landpage/entry/1174', {utm_source:Putm_source,utm_medium:Putm_medium,id:Pid,flnm: userObj.name+'('+userObj.sexText+')', mob: userObj.phone ,tags: ['丰田-奕泽IZOA ',userObj.provText+'-'+userObj.cityText+'-',userObj.dealer]});
 
     var body ="mediaLeadId="+userObj.mediaLeadId+"&mediaLeadType="+userObj.mediaLeadType+"&channelKeyId=" +
         userObj.channelKeyId+
         "&name="+userObj.name+"&phone="+userObj.phone+
         "&sex="+userObj.sex+"&provId="+userObj.provId+"&cityId="+userObj.cityId+"&" +
         "dealerId="+userObj.dealerId+"&chexingId="+userObj.chexingId+"&levelId="+
-        userObj.levelId+"&activity="+userObj.activity+"&advid=1288"+"&traceid=1050"+"&tag=奕泽IZOA";
+        userObj.levelId+"&activity="+userObj.activity+"&advid=1288"+"&seriesId="+userObj.seriesId+"&traceid=1050"+"&tag=奕泽GAS";
     if (userObj.checkBtn == false) {
         userObj.checkBtn = true;
         $.getJSON(userObj.questUrl, body, function (data) {
@@ -209,7 +208,9 @@ function dengingLogin(userObj) {
                     /*手机号*/userObj.phone, /*称谓*/userObj.sex, /*省*/userObj.provId,
                     /*市*/userObj.cityId, /*经销商*/userObj.dealerId, /*车型*/userObj.chexingId,
                     /*购车时间*/userObj.levelId, /**/'奕泽IZOA']);
-                // mt_tracker.track(_mtq);
+                mt_tracker.track(_mtq);
+                $.post('//landingpage.xiaoyun.com/landings/push/landpage/entry/1174', {utm_source:Putm_source,utm_medium:Putm_medium,id:Pid,flnm: userObj.name+'('+userObj.sexText+')', mob: userObj.phone ,tags: ['丰田-奕泽IZOA ',userObj.provText+'-'+userObj.cityText+'-',userObj.dealer]});
+                window.ga&&window.ga('send','event',`${Pid}`,'submit_form',1);
                 // $.fn.xy(
                 //     {
                 //         name: userObj.name, phone: userObj.phone, sex: userObj.sex,
